@@ -1,0 +1,40 @@
+name: keycloak
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-kc
+    restart: always
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak_db
+    networks:
+      - keycloak_network
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2
+    container_name: keycloak
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 7080
+      KC_BOOTSTRAP_ADMIN_USERNAME: keycloak
+      KC_BOOTSTRAP_ADMIN_PASSWORD: keycloak
+      KC_DB: postgres
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: keycloak_db
+    command: [ "start-dev" ]
+    ports:
+      - "7080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - keycloak_network
+volumes:
+  local_pgdata:
+networks:
+  keycloak_network:
+    driver: bridge
