@@ -2,12 +2,6 @@ plugins {
     id("buildlogic.java-conventions")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
 dependencies {
     api(libs.org.springframework.boot.spring.boot.starter.security)
     api(libs.org.springframework.boot.spring.boot.starter.web)
