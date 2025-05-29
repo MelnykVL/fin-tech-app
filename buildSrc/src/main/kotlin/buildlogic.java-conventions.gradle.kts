@@ -15,11 +15,9 @@ repositories {
 group = "edu.example"
 version = "0.0.1-SNAPSHOT"
 
-plugins.withType<JavaPlugin> {
-    extensions.configure<JavaPluginExtension> {
-        toolchain {
-            languageVersion.set(javaVersion.map(JavaLanguageVersion::of))
-        }
+java {
+    toolchain {
+        languageVersion.set(javaVersion.map(JavaLanguageVersion::of))
     }
 }
 
