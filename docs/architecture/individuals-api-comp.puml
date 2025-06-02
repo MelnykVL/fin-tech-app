@@ -19,17 +19,17 @@ package "Testing" {
     [Mockito]
 }
 
-[API Gateway] --> [Auth Controller] : Обрабатывает HTTP запросы
-[Auth Controller] --> [User Service] : Регистрация и логин
-[Auth Controller] --> [Token Service] : Обновление токенов
-[User Service] --> [Keycloak Integration] : Взаимодействие с Keycloak
-[Token Service] --> [Keycloak Integration] : Взаимодействие с Keycloak
-[Keycloak Integration] --> [Keycloak Server] : API вызовы
+[API Gateway] --> [Auth Controller] : Processes HTTP requests
+[Auth Controller] --> [User Service] : Registration and login
+[Auth Controller] --> [Token Service] : Refreshes tokens
+[User Service] --> [Keycloak Integration] : Interactions with Keycloak
+[Token Service] --> [Keycloak Integration] : Interactions with Keycloak
+[Keycloak Integration] --> [Keycloak Server] : API calls
 
-[Auth Controller] ..> [Spring Security] : Аутентификация и авторизация
+[Auth Controller] ..> [Spring Security] : Authentication and authorization
 
-[Individuals API] --> [Docker/Docker-Compose] : Развертывание
-[Individuals API] --> [TestContainers] : Тестирование с контейнерами
-[User Service] --> [JUnit 5] : Юнит-тесты
-[User Service] --> [Mockito] : Мокирование зависимостей
+[Individuals API] --> [Docker/Docker-Compose] : Deployment
+[Individuals API] --> [TestContainers] : Testing with containers
+[User Service] --> [JUnit 5] : Unit-tests
+[User Service] --> [Mockito] : Mocks dependencies
 @enduml
