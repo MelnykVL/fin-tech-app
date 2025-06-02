@@ -11,7 +11,7 @@ package "Security" {
     [Keycloak Server]
 }
 package "Infrastructure" {
-    [Docker]
+    [Docker/Docker-Compose]
     [TestContainers]
 }
 package "Testing" {
@@ -28,7 +28,7 @@ package "Testing" {
 
 [Auth Controller] ..> [Spring Security] : Аутентификация и авторизация
 
-[Individuals API] --> [Docker] : Развертывание
+[Individuals API] --> [Docker/Docker-Compose] : Развертывание
 [Individuals API] --> [TestContainers] : Тестирование с контейнерами
 [User Service] --> [JUnit 5] : Юнит-тесты
 [User Service] --> [Mockito] : Мокирование зависимостей
