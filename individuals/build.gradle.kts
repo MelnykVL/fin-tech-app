@@ -1,17 +1,44 @@
 plugins {
-    id("buildlogic.java-conventions")
+    java
+    id("org.springframework.boot") version "3.5.0"
+    id("io.spring.dependency-management") version "1.1.7"
+}
+
+group = "edu.example"
+version = "0.0.1-SNAPSHOT"
+description = "individuals"
+
+val javaVersion = providers.gradleProperty("javaVersion").map(String::toInt)
+java {
+    toolchain {
+        languageVersion.set(javaVersion.map(JavaLanguageVersion::of))
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom(configurations.annotationProcessor.get())
+    }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
-    api(libs.org.springframework.boot.spring.boot.starter.security)
-    api(libs.org.springframework.boot.spring.boot.starter.web)
-    api(libs.org.springframework.boot.spring.boot.starter.webflux)
-    api(libs.org.projectlombok.lombok)
-    testImplementation(libs.org.springframework.boot.spring.boot.starter.test)
-    testImplementation(libs.org.springframework.boot.spring.boot.testcontainers)
-    testImplementation(libs.io.projectreactor.reactor.test)
-    testImplementation(libs.org.springframework.security.spring.security.test)
-    testImplementation(libs.org.testcontainers.junit.jupiter)
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("io.projectreactor:reactor-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-description = "individuals"
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
