@@ -1,5 +1,6 @@
 package edu.example.fin_tech_app.controller;
 
+import edu.example.fin_tech_app.dto.request.LoginRequest;
 import edu.example.fin_tech_app.dto.request.RegistrationRequest;
 import edu.example.fin_tech_app.dto.response.TokenResponse;
 import edu.example.fin_tech_app.service.TokenService;
@@ -28,6 +29,13 @@ public class AuthController {
       @Valid @RequestBody Mono<RegistrationRequest> registrationRequest) {
     return registrationRequest.flatMap(userService::register)
         .map(tr -> ResponseEntity.status(HttpStatus.CREATED)
+            .body(tr));
+  }
+
+  @PostMapping("/login")
+  public Mono<ResponseEntity<TokenResponse>> login(@Valid @RequestBody Mono<LoginRequest> loginRequest) {
+    return loginRequest.flatMap(userService::login)
+        .map(tr -> ResponseEntity.status(HttpStatus.ACCEPTED)
             .body(tr));
   }
 }
