@@ -30,6 +30,19 @@ public class GlobalExceptionHandler {
         .body(errorResponse));
   }
 
+  @ExceptionHandler(KeycloakException.class)
+  public Mono<ResponseEntity<ErrorResponse>> handleKeycloakException(KeycloakException ex) {
+    String errorMessage = ex.getMessage();
+    int statusCode = ex.getStatus();
+    log.warn("Validation error occurred: {}", errorMessage, ex);
+    if (statusCode == HttpStatus.CONFLICT.value()) {
+      return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+          .body(new ErrorResponse("User with this email already exists.", HttpStatus.CONFLICT.value())));
+    }
+    return Mono.just(ResponseEntity.status(statusCode)
+        .body(new ErrorResponse(errorMessage, statusCode)));
+  }
+
   @ExceptionHandler(Exception.class)
   public Mono<ResponseEntity<String>> handleGenericException(Exception ex, ServerWebExchange exchange) {
     log.error("An unexpected error occurred processing request {}: {}", exchange.getRequest()
