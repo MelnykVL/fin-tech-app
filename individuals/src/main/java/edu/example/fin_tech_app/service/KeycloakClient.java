@@ -7,14 +7,13 @@ import edu.example.fin_tech_app.dto.response.UserInfoResponse;
 import edu.example.fin_tech_app.exception.KeycloakException;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.admin.client.Keycloak;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -22,20 +21,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import java.util.Collections;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class KeycloakService {
+public class KeycloakClient {
 
   private static final String TOKEN_ENDPOINT = "/realms/%s/protocol/openid-connect/token";
   private static final String USER_ENDPOINT = "/admin/realms/{realm}/users/{id}";
 
-  private final Keycloak keycloakAdminClient;
   private final WebClient webClient;
   private final KeycloakAdminProps keycloakAdminProps;
 
   @Value("${keycloak.fintech.realm}")
   private String realm;
 
+  // TODO: use webClient
   public boolean createUser(RegistrationRequest registrationRequest) {
     UserRepresentation userRepresentation = new UserRepresentation();
     userRepresentation.setUsername(registrationRequest.email());
