@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class WebClientConfig {
 
     @Bean
-    public WebClient keycloakWebClient(@Value("${keycloak.server.base-url}") String baseUrl) {
+    public WebClient keycloakWebClient(@Value("${keycloak.individuals.base-url}") String baseUrl) {
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 5000)
                 .responseTimeout(Duration.ofSeconds(5))
