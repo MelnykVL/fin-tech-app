@@ -10,45 +10,46 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
 import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(WebExchangeBindException.class)
-  public Mono<ResponseEntity<ErrorResponse>> handleValidationExceptions(WebExchangeBindException ex) {
-    log.warn("Validation error occurred: {}", ex.getMessage(), ex);
-    String errors = ex.getBindingResult()
-        .getAllErrors()
-        .stream()
-        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-        .collect(Collectors.joining(" "));
+    @ExceptionHandler(WebExchangeBindException.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleValidationExceptions(WebExchangeBindException ex) {
+        log.warn("Validation error occurred: {}", ex.getMessage(), ex);
+        String errors = ex.getBindingResult()
+                .getAllErrors()
+                .stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(" "));
 
-    ErrorResponse errorResponse = new ErrorResponse(errors, HttpStatus.BAD_REQUEST.value());
-    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(errorResponse));
-  }
-
-  @ExceptionHandler(KeycloakException.class)
-  public Mono<ResponseEntity<ErrorResponse>> handleKeycloakException(KeycloakException ex) {
-    String errorMessage = ex.getMessage();
-    int statusCode = ex.getStatus();
-    log.warn("Validation error occurred: {}", errorMessage, ex);
-    if (statusCode == HttpStatus.CONFLICT.value()) {
-      return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
-          .body(new ErrorResponse("User with this email already exists.", HttpStatus.CONFLICT.value())));
+        ErrorResponse errorResponse = new ErrorResponse(errors, HttpStatus.BAD_REQUEST.value());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse));
     }
-    return Mono.just(ResponseEntity.status(statusCode)
-        .body(new ErrorResponse(errorMessage, statusCode)));
-  }
 
-  @ExceptionHandler(Exception.class)
-  public Mono<ResponseEntity<String>> handleGenericException(Exception ex, ServerWebExchange exchange) {
-    log.error("An unexpected error occurred processing request {}: {}", exchange.getRequest()
-        .getPath()
-        .value(), ex.getMessage(), ex);
-    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ex.getMessage()));
-  }
+    @ExceptionHandler(KeycloakIntegrationException.class)
+    public Mono<ResponseEntity<ErrorResponse>> handleKeycloakException(KeycloakIntegrationException ex) {
+        String errorMessage = ex.getMessage();
+        int statusCode = ex.getStatus();
+        log.warn("Validation error occurred: {}", errorMessage, ex);
+        if (statusCode == HttpStatus.CONFLICT.value()) {
+            return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("User with this email already exists.", HttpStatus.CONFLICT.value())));
+        }
+        return Mono.just(ResponseEntity.status(statusCode)
+                .body(new ErrorResponse(errorMessage, statusCode)));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Mono<ResponseEntity<String>> handleGenericException(Exception ex, ServerWebExchange exchange) {
+        log.error("An unexpected error occurred processing request {}: {}", exchange.getRequest()
+                .getPath()
+                .value(), ex.getMessage(), ex);
+        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(ex.getMessage()));
+    }
 }
