@@ -45,11 +45,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public Mono<ResponseEntity<String>> handleGenericException(Exception ex, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<ErrorResponse>> handleGenericException(Exception ex, ServerWebExchange exchange) {
         log.error("An unexpected error occurred processing request {}: {}", exchange.getRequest()
                 .getPath()
                 .value(), ex.getMessage(), ex);
         return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ex.getMessage()));
+                .body(new ErrorResponse(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value())));
     }
 }
