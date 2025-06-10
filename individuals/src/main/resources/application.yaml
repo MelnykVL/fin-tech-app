@@ -1,19 +1,16 @@
-keycloak:
-  server:
-    base-url: http://localhost:7080/
-  admin:
-    realm: master
-    client-id: admin-cli
-    username: keycloak
-    password: keycloak
-    grant-type: password
-  fintech:
-    realm: fintech-app
-    client-id: individuals-api
-
 server:
   port: 8080
+keycloak:
+  individuals:
+    base-url: http://localhost:7080
+    realm: fintech-app
+    client-id: individuals
+    client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl
 spring:
   application:
     name: fin-tech-app
   security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${keycloak.individuals.base-url}/realms/${keycloak.individuals.realm}
