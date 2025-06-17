@@ -4,7 +4,7 @@ package "Individuals API" {
     [Auth Controller]
     [User Service]
     [Token Service]
-    [Keycloak Integration]
+    [Keycloak Client]
 }
 package "Security" {
     [Spring Security]
@@ -22,9 +22,10 @@ package "Testing" {
 [API Gateway] --> [Auth Controller] : Processes HTTP requests
 [Auth Controller] --> [User Service] : Registration and login
 [Auth Controller] --> [Token Service] : Refreshes tokens
-[User Service] --> [Keycloak Integration] : Interactions with Keycloak
-[Token Service] --> [Keycloak Integration] : Interactions with Keycloak
-[Keycloak Integration] --> [Keycloak Server] : API calls
+[User Service] --> [Keycloak Client] : Interactions with Keycloak
+[User Service] --> [Token Service] : Get tokens
+[Token Service] --> [Keycloak Client] : Interactions with Keycloak
+[Keycloak Client] --> [Keycloak Server] : API calls
 
 [Auth Controller] ..> [Spring Security] : Authentication and authorization
 
