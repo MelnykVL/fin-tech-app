@@ -1,46 +1,51 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
-    java
-    id("org.springframework.boot") version "3.5.0"
-    id("io.spring.dependency-management") version "1.1.7"
+  java
+  alias(libs.plugins.spring.boot)
 }
+
+val javaVersion = providers.gradleProperty("javaVersion").map(String::toInt)
 
 group = "edu.example"
 version = "0.0.1-SNAPSHOT"
 description = "individuals"
 
-val javaVersion = providers.gradleProperty("javaVersion").map(String::toInt)
 java {
-    toolchain {
-        languageVersion.set(javaVersion.map(JavaLanguageVersion::of))
-    }
+  toolchain {
+    languageVersion = javaVersion.map(JavaLanguageVersion::of)
+    vendor = JvmVendorSpec.ADOPTIUM
+  }
+  sourceCompatibility = JavaVersion.VERSION_21
 }
 
 configurations {
-    compileOnly {
-        extendsFrom(configurations.annotationProcessor.get())
-    }
+  compileOnly {
+    extendsFrom(configurations.annotationProcessor.get())
+  }
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.boot:spring-boot-testcontainers")
-    testImplementation("org.testcontainers:postgresql")
-    testImplementation("com.github.dasniko:testcontainers-keycloak:3.7.0")
-    testImplementation("io.projectreactor:reactor-test")
-    testImplementation("org.springframework.security:spring-security-test")
-    testImplementation("org.testcontainers:junit-jupiter")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+  implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.boot:spring-boot-starter-validation")
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.springframework.boot:spring-boot-testcontainers")
+  testImplementation("org.testcontainers:postgresql")
+  testImplementation(libs.keycloak.testcontainers)
+  testImplementation("io.projectreactor:reactor-test")
+  testImplementation("org.springframework.security:spring-security-test")
+  testImplementation("org.testcontainers:junit-jupiter")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+  compileOnly(libs.lombok)
+  annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }
