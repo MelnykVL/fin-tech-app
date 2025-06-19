@@ -5,8 +5,19 @@ participant "Keycloak" as KC
 
 == User registration ==
 Client -> API: POST /v1/auth/registration\n{email, password, confirm_password}
-API -> KC: Create user\n(email, password)
+API -> KC: Get admin token (client_id, client_secret)
+
+KC --> API: Return admin's tokens\n{access_token, refresh_token}
+API -> KC: Create user
+note right of API
+  headers:
+    Authorization: Bearer <admin's token>
+  body:
+    (email, password)
+end note
 KC --> API: Confirm creation
+API -> KC: Get user's tokens\n(client_id, client_secret, username, password, grant_type, scope)
+KC --> API: Tokens\n{access_token, refresh_token}
 API -> Client: Return tokens\n{access_token, refresh_token, ...}
 
 == Login ==

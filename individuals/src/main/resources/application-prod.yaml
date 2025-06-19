@@ -1,0 +1,10 @@
+environment:
+  name: PROD
+server:
+  port: #PORT
+keycloak:
+  individuals:
+    base-url: #KEYCLOAK URL
+    realm: fintech-app
+    client-id: individuals
+    client-secret: #SECRET

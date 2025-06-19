@@ -25,13 +25,25 @@ services:
       KC_DB_PASSWORD: ${KC_PG_USER_PASS}
       KC_DB_URL_HOST: postgres
       KC_DB_URL_DATABASE: ${KC_PG_DB}
-    command: [ "start-dev" ]
+    command: [ "start-dev", "--import-realm" ]
+    volumes:
+      - ./realm-config.json:/opt/keycloak/data/import/realm-config.json
     ports:
       - "7080:8080"
     depends_on:
       - postgres
     networks:
       - keycloak_network
+#  pgadmin:
+#    image: dpage/pgadmin4:9.4.0
+#    container_name: pgadmin
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: keycloak@keycloak.com
+#      PGADMIN_DEFAULT_PASSWORD: keycloak
+#    ports:
+#      - 8888:80
+#    networks:
+#      - keycloak_network
 volumes:
   local_pgdata:
 networks:

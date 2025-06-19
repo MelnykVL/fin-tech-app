@@ -1,0 +1,230 @@
+openapi: 3.0.0
+info:
+  title: Individuals API
+  description: API registration, authentication, tokens refresh and getting user data.
+  version: 1.0.0
+servers:
+  - url: https://HOST/v1
+paths:
+  /auth/registration:
+    post:
+      summary: Register new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "SecurePassword123"
+                confirm_password:
+                  type: string
+                  example: "SecurePassword123"
+      responses:
+        '201':
+          description: Successful registration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  expires_in:
+                    type: integer
+                    example: 3600
+                  refresh_token:
+                    type: string
+                    example: "dGhpc0lzQXJlUmVmcmVzaFRva2Vu..."
+                  token_type:
+                    type: string
+                    example: "Bearer"
+        '400':
+          description: Request validation error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Password confirmation does not match"
+                  status:
+                    type: integer
+                    example: 400
+        '409':
+          description: Conflict - user with this email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User with this email already exists"
+                  status:
+                    type: integer
+                    example: 409
+
+  /auth/login:
+    post:
+      summary: User authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "SecurePassword123"
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  expires_in:
+                    type: integer
+                    example: 3600
+                  refresh_token:
+                    type: string
+                    example: "dGhpc0lzQXJlUmVmcmVzaFRva2Vu..."
+                  token_type:
+                    type: string
+                    example: "Bearer"
+        '401':
+          description: Wrong email or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid email or password"
+                  status:
+                    type: integer
+                    example: 401
+
+  /auth/refresh-token:
+    post:
+      summary: Refresh token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+                  example: "dGhpc0lzQXJlUmVmcmVzaFRva2Vu..."
+      responses:
+        '200':
+          description: Successful token refresh
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "newAccessToken..."
+                  expires_in:
+                    type: integer
+                    example: 3600
+                  refresh_token:
+                    type: string
+                    example: "newRefreshToken..."
+                  token_type:
+                    type: string
+                    example: "Bearer"
+        '401':
+          description: Wrong or expired refresh_token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid or expired refresh token"
+                  status:
+                    type: integer
+                    example: 401
+
+  /auth/me:
+    get:
+      summary: Retrieve user data
+      responses:
+        '200':
+          description: User data successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "user-id"
+                  email:
+                    type: string
+                    example: "user@example.com"
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                    example: [ "USER", "ADMIN" ]
+                  created_at:
+                    type: string
+                    example: "2024-10-20T12:34:56Z"
+        '401':
+          description: Wrong or expired access_token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid or expired access token"
+                  status:
+                    type: integer
+                    example: 401
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User not found"
+                  status:
+                    type: integer
+                    example: 404
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: [ ]
