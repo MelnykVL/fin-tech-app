@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "keycloak.individuals")
 public class KeycloakProps {
 
-    private String realm;
-    private String clientId;
-    private String clientSecret;
+  private String realm;
+  private String clientId;
+  private String clientSecret;
 }

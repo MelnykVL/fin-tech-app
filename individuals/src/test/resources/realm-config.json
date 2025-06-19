@@ -671,7 +671,7 @@
     "webAuthnPolicyPasswordlessAvoidSameAuthenticatorRegister": false,
     "webAuthnPolicyPasswordlessAcceptableAaguids": [],
     "webAuthnPolicyPasswordlessExtraOrigins": [],
-    "users": [ ],
+    "users": [],
     "scopeMappings": [
       {
         "clientScope": "offline_access",

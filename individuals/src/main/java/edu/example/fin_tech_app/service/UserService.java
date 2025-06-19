@@ -12,18 +12,18 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final KeycloakClient keycloakClient;
-    private final TokenService tokenService;
+  private final KeycloakClient keycloakClient;
+  private final TokenService tokenService;
 
-    public Mono<AuthResponse> register(RegistrationRequest registrationRequest) {
-        return keycloakClient.createUser(registrationRequest);
-    }
+  public Mono<AuthResponse> register(RegistrationRequest registrationRequest) {
+    return keycloakClient.createUser(registrationRequest);
+  }
 
-    public Mono<AuthResponse> login(LoginRequest loginRequest) {
-        return tokenService.getTokens(loginRequest);
-    }
+  public Mono<AuthResponse> login(LoginRequest loginRequest) {
+    return tokenService.getTokens(loginRequest);
+  }
 
-    public Mono<UserInfoResponse> getUserInfo(String accessToken) {
-        return keycloakClient.getUserInfo(accessToken);
-    }
+  public Mono<UserInfoResponse> getUserInfo(String accessToken) {
+    return keycloakClient.getUserInfo(accessToken);
+  }
 }

@@ -190,7 +190,7 @@ paths:
                     type: array
                     items:
                       type: string
-                    example: ["USER", "ADMIN"]
+                    example: [ "USER", "ADMIN" ]
                   created_at:
                     type: string
                     example: "2024-10-20T12:34:56Z"
@@ -227,4 +227,4 @@ components:
       scheme: bearer
       bearerFormat: JWT
 security:
-  - bearerAuth: []
+  - bearerAuth: [ ]

@@ -22,40 +22,41 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @Testcontainers
 class AuthControllerIT {
 
-    @LocalServerPort
-    private int port;
+  @LocalServerPort
+  private int port;
 
-    @Autowired
-    private WebTestClient webTestClient;
+  @Autowired
+  private WebTestClient webTestClient;
 
-    @BeforeAll
-    static void startContainers() {
-        TestcontainersConfiguration.KEYCLOAK.start();
-    }
+  @BeforeAll
+  static void startContainers() {
+    TestcontainersConfiguration.KEYCLOAK.start();
+  }
 
-    @Test
-    void registration() {
-        RegistrationRequest registrationRequest = new RegistrationRequest("integration@test.com", "password123", "password123");
+  @Test
+  void registration() {
+    RegistrationRequest registrationRequest =
+        new RegistrationRequest("integration@test.com", "password123", "password123");
 
-        webTestClient.post()
-                .uri("http://localhost:" + port + "/v1/auth/registration")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(registrationRequest)
-                .exchange()
-                .expectStatus().isCreated()
-                .expectBody(AuthResponse.class);
-    }
+    webTestClient.post()
+        .uri("http://localhost:" + port + "/v1/auth/registration")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(registrationRequest)
+        .exchange()
+        .expectStatus().isCreated()
+        .expectBody(AuthResponse.class);
+  }
 
-    @Test
-    void login() {
-        LoginRequest loginRequest = new LoginRequest("integration@test.com", "password123");
+  @Test
+  void login() {
+    LoginRequest loginRequest = new LoginRequest("integration@test.com", "password123");
 
-        webTestClient.post()
-                .uri("http://localhost:" + port + "/v1/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(loginRequest)
-                .exchange()
-                .expectStatus().isOk()
-                .expectBody(AuthResponse.class);
-    }
+    webTestClient.post()
+        .uri("http://localhost:" + port + "/v1/auth/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue(loginRequest)
+        .exchange()
+        .expectStatus().isOk()
+        .expectBody(AuthResponse.class);
+  }
 }

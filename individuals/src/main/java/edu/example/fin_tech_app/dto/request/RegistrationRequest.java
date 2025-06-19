@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public record RegistrationRequest(@Email(message = "The email format must be correct.") @NotBlank(
-        message = "The email must not be blank.") String email,
+    message = "The email must not be blank.") String email,
                                   @Size(min = 8, message = "Password must contain more than 8 characters.") @NotBlank(
-                                          message = "The password must not be blank.") String password,
+                                      message = "The password must not be blank.") String password,
                                   @NotBlank(message = "The confirm_password must not be blank.") @JsonProperty(
-                                          "confirm_password") String confirmPassword) {
+                                      "confirm_password") String confirmPassword) {
 
-    @AssertTrue(message = "The password and confirm_password must be the same.")
-    private boolean isPasswordsMatch() {
-        return password != null && password.equals(confirmPassword);
-    }
+  @AssertTrue(message = "The password and confirm_password must be the same.")
+  private boolean isPasswordsMatch() {
+    return password != null && password.equals(confirmPassword);
+  }
 }

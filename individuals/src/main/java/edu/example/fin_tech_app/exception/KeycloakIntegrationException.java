@@ -5,10 +5,10 @@ import lombok.Getter;
 @Getter
 public class KeycloakIntegrationException extends RuntimeException {
 
-    private int status;
+  private final int status;
 
-    public KeycloakIntegrationException(String message, int status) {
-        super(message);
-        this.status = status;
-    }
+  public KeycloakIntegrationException(String message, int status) {
+    super(message);
+    this.status = status;
+  }
 }

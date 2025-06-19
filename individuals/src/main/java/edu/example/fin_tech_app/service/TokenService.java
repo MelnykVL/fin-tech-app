@@ -11,13 +11,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class TokenService {
 
-    private final KeycloakClient keycloakClient;
+  private final KeycloakClient keycloakClient;
 
-    public Mono<AuthResponse> getTokens(LoginRequest loginRequest) {
-        return keycloakClient.getTokens(loginRequest.email(), loginRequest.password());
-    }
+  public Mono<AuthResponse> getTokens(LoginRequest loginRequest) {
+    return keycloakClient.getTokens(loginRequest.email(), loginRequest.password());
+  }
 
-    public Mono<AuthResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        return keycloakClient.refreshToken(refreshTokenRequest.refreshToken());
-    }
+  public Mono<AuthResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
+    return keycloakClient.refreshToken(refreshTokenRequest.refreshToken());
+  }
 }

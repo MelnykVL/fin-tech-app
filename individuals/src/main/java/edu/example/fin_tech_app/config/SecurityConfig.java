@@ -12,17 +12,17 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
-    @Bean
-    SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
-        return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-                .authorizeExchange(exchange -> exchange.pathMatchers("/v1/auth/**")
-                        .permitAll()
-                        .pathMatchers("/v1/auth/me")
-                        .authenticated()
-                        .anyExchange()
-                        .denyAll())
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .build();
-    }
+  @Bean
+  SecurityWebFilterChain springSecurity(ServerHttpSecurity http) {
+    return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+        .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
+        .authorizeExchange(exchange -> exchange.pathMatchers("/v1/auth/**")
+            .permitAll()
+            .pathMatchers("/v1/auth/me")
+            .authenticated()
+            .anyExchange()
+            .denyAll())
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+        .build();
+  }
 }
