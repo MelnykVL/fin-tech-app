@@ -1,0 +1,11 @@
+environment:
+  name: DEV
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+    reactor:
+      netty:
+        http:
+          client: DEBUG

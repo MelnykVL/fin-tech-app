@@ -7,6 +7,8 @@ keycloak:
     client-id: individuals
     client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl
 spring:
+  profiles:
+    active: dev
   application:
     name: fin-tech-app
   security:
