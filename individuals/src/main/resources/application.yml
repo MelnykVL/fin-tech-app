@@ -13,6 +13,16 @@ spring:
     name: fin-tech-app
   security:
     oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.individuals.base-url}/realms/${keycloak.individuals.realm}
+        registration:
+          keycloak-admin-client-registration:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${keycloak.individuals.client-id}
+            client-secret: ${keycloak.individuals.client-secret}
       resourceserver:
         jwt:
-          issuer-uri: ${keycloak.individuals.base-url}/realms/${keycloak.individuals.realm}
+          issuer-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}
