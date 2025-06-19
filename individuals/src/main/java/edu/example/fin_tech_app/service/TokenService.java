@@ -1,5 +1,6 @@
 package edu.example.fin_tech_app.service;
 
+import edu.example.fin_tech_app.client.KeycloakClient;
 import edu.example.fin_tech_app.dto.request.LoginRequest;
 import edu.example.fin_tech_app.dto.request.RefreshTokenRequest;
 import edu.example.fin_tech_app.dto.response.AuthResponse;

@@ -1,4 +1,4 @@
-package edu.example.fin_tech_app.service;
+package edu.example.fin_tech_app.client;
 
 import edu.example.fin_tech_app.config.KeycloakProps;
 import edu.example.fin_tech_app.dto.request.RegistrationRequest;
