@@ -8,7 +8,7 @@ plugins {
 val javaVersion = providers.gradleProperty("javaVersion").map(String::toInt)
 
 group = "edu.example"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 description = "individuals"
 
 java {
