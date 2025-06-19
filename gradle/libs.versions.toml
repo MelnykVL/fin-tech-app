@@ -1,0 +1,11 @@
+[versions]
+spring-boot = "3.5.0"
+keycloak-testcontainers = "3.7.0"
+lombok = "1.18.38"
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+
+[libraries]
+keycloak-testcontainers = { module = "com.github.dasniko:testcontainers-keycloak", version.ref = "keycloak-testcontainers" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
