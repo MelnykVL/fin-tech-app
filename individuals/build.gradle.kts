@@ -30,21 +30,26 @@ repositories {
 }
 
 dependencies {
+  // Spring Boot starters
   implementation(platform(SpringBootPlugin.BOM_COORDINATES))
   implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
   implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   implementation("org.springframework.boot:spring-boot-starter-validation")
+
+  // Utilities
+  compileOnly(libs.lombok)
+  annotationProcessor(libs.lombok)
+
+  // Testing
+  testImplementation("org.springframework.security:spring-security-test")
+  testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.boot:spring-boot-testcontainers")
   testImplementation("org.testcontainers:postgresql")
   testImplementation(libs.keycloak.testcontainers)
   testImplementation("io.projectreactor:reactor-test")
-  testImplementation("org.springframework.security:spring-security-test")
-  testImplementation("org.testcontainers:junit-jupiter")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-  compileOnly(libs.lombok)
-  annotationProcessor(libs.lombok)
 }
 
 tasks.withType<Test> {
