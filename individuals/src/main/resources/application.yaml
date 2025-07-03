@@ -5,7 +5,7 @@ keycloak:
     base-url: http://localhost:7080
     realm: fintech-app
     client-id: individuals
-    client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl
+    client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl # set new value from Keycloak
 spring:
   profiles:
     active: dev
