@@ -1,0 +1,24 @@
+keycloak:
+  individuals:
+    base-url: http://localhost:5080
+    realm: fintech-app
+    client-id: individuals
+    client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl
+spring:
+  application:
+    name: fin-tech-app
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${keycloak.individuals.base-url}/realms/${keycloak.individuals.realm}
+        registration:
+          keycloak:
+            provider: keycloak
+            authorization-grant-type: client_credentials
+            client-id: ${keycloak.individuals.client-id}
+            client-secret: ${keycloak.individuals.client-secret}
+      resourceserver:
+        jwt:
+          issuer-uri: ${spring.security.oauth2.client.provider.keycloak.issuer-uri}
