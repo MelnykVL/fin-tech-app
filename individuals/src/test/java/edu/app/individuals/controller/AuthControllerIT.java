@@ -1,25 +1,21 @@
 package edu.app.individuals.controller;
 
-import edu.app.individuals.TestcontainersConfiguration;
-import edu.app.individuals.config.WebClientOverrideConfig;
+import edu.app.individuals.config.ContainersConfig;
 import edu.app.individuals.dto.request.LoginRequest;
 import edu.app.individuals.dto.request.RegistrationRequest;
 import edu.app.individuals.dto.response.AuthResponse;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-@Import({TestcontainersConfiguration.class, WebClientOverrideConfig.class})
-@Testcontainers
+@SpringBootTest(webEnvironment = RANDOM_PORT, properties = "spring.main.web-application-type=reactive")
+@ImportTestcontainers(ContainersConfig.class)
 class AuthControllerIT {
 
   @LocalServerPort
@@ -27,11 +23,6 @@ class AuthControllerIT {
 
   @Autowired
   private WebTestClient webTestClient;
-
-  @BeforeAll
-  static void startContainers() {
-    TestcontainersConfiguration.KEYCLOAK.start();
-  }
 
   @Test
   void registration() {

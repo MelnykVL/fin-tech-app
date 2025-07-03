@@ -14,7 +14,7 @@ spring:
           keycloak:
             issuer-uri: ${keycloak.individuals.base-url}/realms/${keycloak.individuals.realm}
         registration:
-          keycloak:
+          keycloak-admin-client-registration:
             provider: keycloak
             authorization-grant-type: client_credentials
             client-id: ${keycloak.individuals.client-id}

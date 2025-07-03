@@ -1,6 +1,5 @@
 package edu.app.individuals.config;
 
-import edu.app.individuals.TestcontainersConfiguration;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
@@ -27,7 +26,6 @@ public class WebClientOverrideConfig {
                 .addHandlerLast(new WriteTimeoutHandler(10, TimeUnit.SECONDS)));
 
     return WebClient.builder()
-        .baseUrl(TestcontainersConfiguration.KEYCLOAK.getAuthServerUrl())
         .clientConnector(new ReactorClientHttpConnector(httpClient))
         .build();
   }
