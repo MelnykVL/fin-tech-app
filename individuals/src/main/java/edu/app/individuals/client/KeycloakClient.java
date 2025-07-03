@@ -49,6 +49,7 @@ public class KeycloakClient {
     formData.add(OAuth2ParameterNames.CLIENT_SECRET, keycloakProps.getClientSecret());
     formData.add(OAuth2ParameterNames.USERNAME, username);
     formData.add(OAuth2ParameterNames.PASSWORD, password);
+    //noinspection removal
     formData.add(OAuth2ParameterNames.GRANT_TYPE, AuthorizationGrantType.PASSWORD.getValue());
     formData.add(OAuth2ParameterNames.SCOPE, scope);
 
@@ -60,7 +61,7 @@ public class KeycloakClient {
         .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
             clientResponse -> clientResponse.bodyToMono(String.class)
                 .flatMap(errorMessage -> Mono.error(
-                    new KeycloakIntegrationException("Unnable to get access_token: " + errorMessage,
+                    new KeycloakIntegrationException("Unable to get access_token: " + errorMessage,
                         clientResponse.statusCode()
                             .value()))))
         .bodyToMono(AuthResponse.class);
@@ -81,7 +82,7 @@ public class KeycloakClient {
         .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
             clientResponse -> clientResponse.bodyToMono(String.class)
                 .flatMap(errorMessage -> Mono.error(
-                    new KeycloakIntegrationException("Unnable to refresh token: " + errorMessage,
+                    new KeycloakIntegrationException("Unable to refresh token: " + errorMessage,
                         clientResponse.statusCode()
                             .value()))))
         .bodyToMono(AuthResponse.class);
@@ -96,7 +97,7 @@ public class KeycloakClient {
             resp.bodyToMono(String.class)
                 .flatMap(errorMessage ->
                     Mono.just(
-                        new KeycloakIntegrationException("Unnable to create user: " + errorMessage, resp.statusCode()
+                        new KeycloakIntegrationException("Unable to create user: " + errorMessage, resp.statusCode()
                             .value()))))
         .bodyToMono(UserInfoResponse.class);
   }
@@ -117,7 +118,7 @@ public class KeycloakClient {
             resp.bodyToMono(String.class)
                 .flatMap(errorMessage ->
                     Mono.just(
-                        new KeycloakIntegrationException("Unnable to create user: " + errorMessage, resp.statusCode()
+                        new KeycloakIntegrationException("Unable to create user: " + errorMessage, resp.statusCode()
                             .value()))))
         .toBodilessEntity().thenReturn(registrationRequest.email());
   }
