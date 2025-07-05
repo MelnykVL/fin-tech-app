@@ -2,7 +2,7 @@ server:
   port: 8080
 keycloak:
   individuals:
-    base-url: http://localhost:7080
+    base-url: http://keycloak:8080
     realm: fintech-app
     client-id: individuals
     client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl # set new value from Keycloak
