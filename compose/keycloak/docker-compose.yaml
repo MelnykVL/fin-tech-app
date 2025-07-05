@@ -16,7 +16,6 @@ services:
     image: quay.io/keycloak/keycloak:26.2
     container_name: keycloak
     environment:
-      KC_HOSTNAME: localhost
       KC_HOSTNAME_PORT: 7080
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_PG_USER_PASS}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_PG_USER_PASS}
@@ -34,6 +33,7 @@ services:
       - postgres
     networks:
       - keycloak_network
+      - fin_tech_network
 #  pgadmin:
 #    image: dpage/pgadmin4:9.4.0
 #    container_name: pgadmin
@@ -49,3 +49,5 @@ volumes:
 networks:
   keycloak_network:
     driver: bridge
+  fin_tech_network:
+    external: true
