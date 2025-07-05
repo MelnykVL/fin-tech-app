@@ -1,6 +1,6 @@
 keycloak:
   individuals:
-    base-url: http://localhost:5080
+    base-url: http://dummy
     realm: fintech-app
     client-id: individuals
     client-secret: QF8rGFdWsF6xzdgvjrEnVhVAHGlpFqLl
