@@ -1,0 +1,15 @@
+name: individuals
+
+services:
+  individuals:
+    build:
+      context: ../../
+      dockerfile: individuals/Dockerfile
+    container_name: individuals
+    ports:
+      - "8080:8080"
+    networks:
+      - fin_tech_network
+networks:
+  fin_tech_network:
+    external: true
